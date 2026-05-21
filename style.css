@@ -886,7 +886,7 @@ body {
 }
 
 .simulator-canvas-container {
-    height: 500px;
+    height: 540px;
     display: flex;
     flex-direction: column;
 }
