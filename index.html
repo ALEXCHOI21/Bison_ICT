@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💎 Bison SMC Academy | 비손 방법론 트레이딩 아카데미</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Main Style sheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- ── SIDEBAR NAV ── -->
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="brand-logo">
+                    <i class="fa-solid fa-gem glow-icon"></i>
+                </div>
+                <div class="brand-text">
+                    <h1>Bison SMC</h1>
+                    <span>Academy</span>
+                </div>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active" data-tab="dashboard">
+                    <i class="fa-solid fa-chart-line"></i> <span>대시보드</span>
+                </a>
+                <a href="#" class="nav-item" data-tab="roadmap">
+                    <i class="fa-solid fa-route"></i> <span>학습 로드맵</span>
+                </a>
+                <a href="#" class="nav-item" data-tab="cheatsheet">
+                    <i class="fa-solid fa-book-bookmark"></i> <span>용어 치트시트</span>
+                </a>
+                <a href="#" class="nav-item" data-tab="simulator">
+                    <i class="fa-solid fa-pen-ruler"></i> <span>작도 시뮬레이터</span>
+                </a>
+            </nav>
+
+            <div class="user-progress-card">
+                <div class="progress-info">
+                    <span>전체 달성도</span>
+                    <strong id="sidebar-progress-text">0%</strong>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="sidebar-progress-bar" style="width: 0%"></div>
+                </div>
+                <div class="stats-mini">
+                    <div>
+                        <span id="sidebar-completed-count">0</span>/15 완료
+                    </div>
+                </div>
+            </div>
+            
+            <button class="btn btn-danger btn-sm reset-all-btn" id="reset-progress-btn">
+                <i class="fa-solid fa-arrow-rotate-left"></i> <span>진척도 초기화</span>
+            </button>
+        </aside>
+
+        <!-- ── MAIN CONTENT ── -->
+        <main class="main-content">
+            <!-- HEADER -->
+            <header class="app-header">
+                <div class="header-search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="global-search" placeholder="용어, 개념, 패턴 검색... (예: MSS, FVG)">
+                </div>
+                <div class="header-actions">
+                    <div class="api-key-badge" id="api-key-indicator">
+                        <i class="fa-solid fa-key"></i> <span>Gemini AI 활성</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- ── TAB: DASHBOARD ── -->
+            <section class="tab-content active" id="tab-dashboard">
+                <div class="welcome-banner">
+                    <div class="banner-text">
+                        <h2>비손의 트레이딩 세계에 오신 것을 환영합니다! 🚀</h2>
+                        <p>복잡한 차트 이론과 Smart Money Concept(SMC)을 100% 한글 비유와 다듬어진 퀴즈로 가장 쉽게 이해하도록 돕습니다.</p>
+                    </div>
+                    <div class="banner-badge">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon purple"><i class="fa-solid fa-book-open"></i></div>
+                        <div class="stat-details">
+                            <h3>학습 진행</h3>
+                            <p><span id="dash-completed-lessons">0</span> / 15 챕터</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon green"><i class="fa-solid fa-circle-check"></i></div>
+                        <div class="stat-details">
+                            <h3>퀴즈 정답률</h3>
+                            <p id="dash-quiz-rate">0%</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon blue"><i class="fa-solid fa-award"></i></div>
+                        <div class="stat-details">
+                            <h3>현재 등급</h3>
+                            <p id="dash-level-badge">초보 트레이더 🐣</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-body">
+                    <!-- 최근 학습 챕터 추천 -->
+                    <div class="card continue-learning-card">
+                        <div class="card-header">
+                            <h2><i class="fa-solid fa-play"></i> 이어서 학습하기</h2>
+                        </div>
+                        <div class="card-body" id="continue-learning-slot">
+                            <!-- 로드 시 동적 채워짐 -->
+                        </div>
+                    </div>
+
+                    <!-- 단계별 로드맵 요약 -->
+                    <div class="card phase-summary-card">
+                        <div class="card-header">
+                            <h2><i class="fa-solid fa-network-wired"></i> 4단계 커리큘럼</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="phase-list">
+                                <div class="phase-row" data-phase="1">
+                                    <span class="phase-badge p1">1단계</span>
+                                    <div class="phase-desc">
+                                        <h4>시장 기초와 추세</h4>
+                                        <p>MSS, 20MA, 프리미엄 vs 디스카운트 등 추세 파악의 기초</p>
+                                    </div>
+                                    <div class="phase-count"><span class="completed">0</span>/4 완료</div>
+                                </div>
+                                <div class="phase-row" data-phase="2">
+                                    <span class="phase-badge p2">2단계</span>
+                                    <div class="phase-desc">
+                                        <h4>유동성 이론</h4>
+                                        <p>Liquidity Sweep, DOL, LRL, 내러티브 등 세력 물량의 원리</p>
+                                    </div>
+                                    <div class="phase-count"><span class="completed">0</span>/4 완료</div>
+                                </div>
+                                <div class="phase-row" data-phase="3">
+                                    <span class="phase-badge p3">3단계</span>
+                                    <div class="phase-desc">
+                                        <h4>고급 ICT 패턴</h4>
+                                        <p>공정가치갭(FVG), BPR, IFVG, 브레이커 블록 등 진입의 기준</p>
+                                    </div>
+                                    <div class="phase-count"><span class="completed">0</span>/3 완료</div>
+                                </div>
+                                <div class="phase-row" data-phase="4">
+                                    <span class="phase-badge p4">4단계</span>
+                                    <div class="phase-desc">
+                                        <h4>실전 트레이딩 가이드</h4>
+                                        <p>올바른 스탑로스 설정, 손실률 계산법, 세션 프로필, 먼데이 레인지</p>
+                                    </div>
+                                    <div class="phase-count"><span class="completed">0</span>/4 완료</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ── TAB: ROADMAP ── -->
+            <section class="tab-content" id="tab-roadmap">
+                <div class="section-title">
+                    <h2>🗺️ SMC/ICT 아카데미 정규 커리큘럼</h2>
+                    <p>비손 방법론을 4가지 수준별로 나누어 기초부터 실전까지 순차적으로 마스터합니다.</p>
+                </div>
+                
+                <div class="roadmap-container" id="roadmap-timeline">
+                    <!-- 단계별 노드가 app.js에서 동적으로 주입됩니다. -->
+                </div>
+            </section>
+
+            <!-- ── TAB: CHEATSHEET ── -->
+            <section class="tab-content" id="tab-cheatsheet">
+                <div class="section-title">
+                    <h2>📖 초보자용 핵심 용어 치트시트</h2>
+                    <p>가장 많이 쓰이지만 가장 헷갈리는 SMC 핵심 약어들을 초보자 맞춤형 비유로 쉽게 해석해 드립니다.</p>
+                </div>
+
+                <div class="search-filter-bar">
+                    <div class="filter-buttons">
+                        <button class="btn filter-btn active" data-filter="all">전체</button>
+                        <button class="btn filter-btn" data-filter="1">1단계 (기초)</button>
+                        <button class="btn filter-btn" data-filter="2">2단계 (유동성)</button>
+                        <button class="btn filter-btn" data-filter="3">3단계 (ICT패턴)</button>
+                        <button class="btn filter-btn" data-filter="4">4단계 (실전)</button>
+                    </div>
+                </div>
+
+                <div class="cheatsheet-grid" id="cheatsheet-grid">
+                    <!-- app.js에서 lessons_db.json 데이터 기반으로 동적 렌더링 -->
+                </div>
+            </section>
+
+            <!-- ── TAB: SIMULATOR ── -->
+            <section class="tab-content" id="tab-simulator">
+                <div class="section-title">
+                    <h2>🎨 대화형 차트 작도 시뮬레이터</h2>
+                    <p>눈으로만 읽지 말고 직접 마우스로 FVG 갭을 찾아 칠해보거나 MSS 전환점을 클릭하며 진짜 차트 분석력을 훈련하세요!</p>
+                </div>
+
+                <div class="simulator-layout">
+                    <div class="simulator-sidebar">
+                        <div class="sim-mission-card">
+                            <h3><i class="fa-solid fa-bullseye"></i> 오늘의 실전 미션</h3>
+                            <div id="sim-mission-selector">
+                                <button class="sim-mission-btn active" data-mission="fvg">
+                                    <strong>미션 1.</strong> FVG(공정가치갭) 찾기
+                                </button>
+                                <button class="sim-mission-btn" data-mission="mss">
+                                    <strong>미션 2.</strong> MSS(시장 구조 전환) 포착
+                                </button>
+                                <button class="sim-mission-btn" data-mission="ob">
+                                    <strong>미션 3.</strong> 강세 오더블록(OB) 색칠
+                                </button>
+                            </div>
+                            <div class="sim-mission-guide" id="sim-mission-text">
+                                <!-- 미션 가이드 문구 주입 -->
+                            </div>
+                        </div>
+
+                        <div class="sim-actions">
+                            <button class="btn btn-secondary" id="sim-reset-btn">
+                                <i class="fa-solid fa-rotate-right"></i> 다시 그리기
+                            </button>
+                            <button class="btn btn-primary" id="sim-verify-btn">
+                                <i class="fa-solid fa-circle-check"></i> 작도 검증하기
+                            </button>
+                        </div>
+                        
+                        <div class="sim-feedback-panel" id="sim-feedback" style="display: none;">
+                            <!-- 채점 피드백 결과 -->
+                        </div>
+                    </div>
+
+                    <div class="simulator-canvas-container card">
+                        <div class="canvas-header">
+                            <span class="status-indicator"><i class="fa-solid fa-pencil"></i> 실시간 캔버스</span>
+                            <span id="canvas-asset-name">BTCUSDT 1H Chart</span>
+                        </div>
+                        <div class="canvas-wrapper">
+                            <!-- SVG를 이용해 정교한 차트 캔들 및 클릭 작도 기능 구현 -->
+                            <svg id="sim-svg-canvas" viewBox="0 0 800 450" preserveAspectRatio="xMidYMid slice">
+                                <!-- Grid Lines -->
+                                <defs>
+                                    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                                        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+                                    </pattern>
+                                </defs>
+                                <rect width="100%" height="100%" fill="url(#grid)" />
+                                <g id="canvas-candles-group"></g>
+                                <g id="canvas-interactive-group"></g>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- ── LESSON PLAYER MODAL (학습 및 퀴즈 플레이어) ── -->
+    <div class="modal-overlay" id="lesson-modal">
+        <div class="modal-card">
+            <button class="modal-close-btn" id="modal-close"><i class="fa-solid fa-xmark"></i></button>
+            
+            <div class="modal-header">
+                <div class="header-meta">
+                    <span class="phase-badge p1" id="modal-phase">1단계</span>
+                    <span class="diff-badge" id="modal-difficulty">초급</span>
+                </div>
+                <h2 id="modal-title">시장 구조 전환 (MSS)</h2>
+            </div>
+            
+            <div class="modal-body-wrapper">
+                <div class="modal-nav-tabs">
+                    <button class="modal-tab active" data-modaltab="learn"><i class="fa-solid fa-book-open"></i> 개념 학습</button>
+                    <button class="modal-tab" data-modaltab="quiz"><i class="fa-solid fa-circle-question"></i> 개념 퀴즈 (<span id="modal-quiz-count">0</span>)</button>
+                </div>
+
+                <!-- MODAL TAB: LEARN -->
+                <div class="modal-tab-content active" id="modal-tab-learn">
+                    <div class="tldr-box">
+                        <h4>💡 한줄 요약</h4>
+                        <p id="modal-tldr"></p>
+                    </div>
+
+                    <div class="analogy-box">
+                        <h4>🏡 아주 쉬운 일상 비유</h4>
+                        <p id="modal-analogy"></p>
+                    </div>
+
+                    <div class="concept-detail-box">
+                        <h4>📊 차트 분석 핵심 요약</h4>
+                        <p id="modal-concept"></p>
+                    </div>
+
+                    <div class="terms-mini-list">
+                        <h4>🔑 필수 용어 사전</h4>
+                        <div class="terms-grid" id="modal-terms-list">
+                            <!-- 동적 용어 목록 -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MODAL TAB: QUIZ -->
+                <div class="modal-tab-content" id="modal-tab-quiz">
+                    <div class="quiz-player" id="quiz-player-container">
+                        <div class="quiz-progress">
+                            <span id="quiz-progress-text">문제 1 / 3</span>
+                            <div class="quiz-progress-bar-container">
+                                <div class="quiz-progress-bar" id="quiz-progress-bar" style="width: 33%"></div>
+                            </div>
+                        </div>
+
+                        <div class="quiz-card card">
+                            <h3 id="quiz-question-text">퀴즈 질문이 들어갑니다.</h3>
+                            <div class="quiz-options-list" id="quiz-options-group">
+                                <!-- 4지선다 버튼 -->
+                            </div>
+                        </div>
+
+                        <!-- 퀴즈 채점 피드백 상자 -->
+                        <div class="quiz-feedback-box" id="quiz-feedback" style="display: none;">
+                            <div class="feedback-icon" id="feedback-icon-slot">
+                                <i class="fa-solid fa-circle-check"></i>
+                            </div>
+                            <div class="feedback-text">
+                                <h4 id="feedback-title-text">정답입니다! 🟢</h4>
+                                <p id="feedback-desc-text">상세 해설이 이곳에 채워집니다.</p>
+                            </div>
+                        </div>
+
+                        <div class="quiz-navigation">
+                            <button class="btn btn-primary" id="quiz-next-btn" style="display: none;">다음 문제로 <i class="fa-solid fa-chevron-right"></i></button>
+                            <button class="btn btn-success" id="quiz-finish-btn" style="display: none;">학습 완료하기 <i class="fa-solid fa-graduation-cap"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── FLOATING CHATBOT WIDGET (BISON AI TUTOR) ── -->
+    <div class="chatbot-widget" id="chatbot-container">
+        <!-- CHAT TRIGGER BUTTON -->
+        <button class="chat-trigger" id="chat-trigger-btn">
+            <i class="fa-solid fa-comments"></i>
+            <span class="chat-badge" style="display: none;">1</span>
+        </button>
+
+        <!-- CHAT WINDOW -->
+        <div class="chat-window" id="chat-window">
+            <div class="chat-header">
+                <div class="tutor-profile">
+                    <div class="avatar"><i class="fa-solid fa-robot"></i></div>
+                    <div class="tutor-info">
+                        <h3>Bison AI 튜터</h3>
+                        <span>비손 방법론 전문 해설봇</span>
+                    </div>
+                </div>
+                <button class="chat-close" id="chat-close-btn"><i class="fa-solid fa-minus"></i></button>
+            </div>
+
+            <!-- 메시지 출력 구역 -->
+            <div class="chat-messages" id="chat-messages-box">
+                <div class="message system">
+                    안녕하세요! 🐣 **Bison SMC/ICT 아카데미** 전담 AI 튜터입니다. 
+                    비손 방법론의 FVG, MSS, 세션 프로필 등 무엇이든 물어보세요!
+                </div>
+            </div>
+
+            <!-- 입력 구역 -->
+            <div class="chat-input-area">
+                <input type="text" id="chat-user-input" placeholder="MSS 돌파 조건이 뭐야?">
+                <button id="chat-send-btn"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Logic Script -->
+    <script src="app.js"></script>
+</body>
+</html>
